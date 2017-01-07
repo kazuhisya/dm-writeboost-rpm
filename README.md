@@ -1,8 +1,13 @@
 # dm-writeboost-rpm
 
+| Package              | RPM        |
+|:---------------------|:-----------|
+| `dm-writeboost-dkms` | [![FedoraCopr](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/package/dm-writeboost-dkms/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/) |
+| `kmod-dm-writeboost` | not yet... |
+
 This repository provides the dm-writeboost unofficial rpmbuild scripts for Red Hat Enterprise Linux, CentOS and Fedora.
 
-dm-writeboost is block-level log-structured caching driver for Linux, influenced by Disk Caching Disk (DCD).it is written by Akira Hayakawa
+dm-writeboost is block-level log-structured caching driver for Linux, influenced by Disk Caching Disk (DCD). It is written by Akira Hayakawa
 
 See Also: https://github.com/akiradeveloper/dm-writeboost
 
