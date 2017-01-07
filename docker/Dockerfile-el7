@@ -1,0 +1,18 @@
+FROM centos:7
+MAINTAINER Kazuhisa Hara <kazuhisya@gmail.com>
+
+RUN yum install -y yum-utils rpmdevtools make epel-release kernel kernel-devel vim bash-completion && \
+    yum install -y dkms
+WORKDIR /dm
+
+RUN curl -OL https://github.com/akiradeveloper/dm-writeboost/archive/v2.2.6.tar.gz
+COPY / /dm
+RUN mkdir -p dist/{BUILD,RPMS,SPECS,SOURCES,SRPMS,install} && \
+    cp -pf *.tar.gz dist/SOURCES/ && \
+    cp -pf *.patch  dist/SOURCES/
+RUN rpmbuild -ba \
+        --define "_topdir ${PWD}/dist" \
+        --define "buildroot ${PWD}/dist/install" \
+        --clean \
+        dm-writeboost-dkms.spec
+RUN yum install --disablerepo=* -y ./dist/RPMS/noarch/dm-*
