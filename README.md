@@ -7,7 +7,7 @@
 
 This repository provides the dm-writeboost unofficial rpmbuild scripts for Red Hat Enterprise Linux, CentOS and Fedora.
 
-dm-writeboost is block-level log-structured caching driver for Linux, influenced by Disk Caching Disk (DCD). It is written by Akira Hayakawa
+dm-writeboost is block-level log-structured caching driver for Linux, influenced by Disk Caching Disk (DCD). It is written by Akira Hayakawa.
 
 See Also: https://github.com/akiradeveloper/dm-writeboost
 
@@ -31,8 +31,7 @@ Prerequisites:
     - [FedoraCopr khara/dm-writeboost](https://copr.fedoraproject.org/coprs/khara/dm-writeboost/)
 
 
-
-el7:
+el7: (need epel repo)
 
 ```bash
 $ sudo curl -sL -o /etc/yum.repos.d/khara-dm-writeboost.repo https://copr.fedoraproject.org/coprs/khara/dm-writeboost/repo/epel-7/khara-dm-writeboost-epel-7.repo
