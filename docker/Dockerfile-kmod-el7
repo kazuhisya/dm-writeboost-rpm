@@ -1,0 +1,24 @@
+FROM centos:7
+MAINTAINER Kazuhisa Hara <kazuhisya@gmail.com>
+
+RUN yum install -y yum-utils rpmdevtools make vim bash-completion
+RUN curl -OL http://ftp.jaist.ac.jp/pub/Linux/CentOS/7.3.1611/os/x86_64/Packages/kernel-3.10.0-514.el7.x86_64.rpm && \
+    curl -OL http://ftp.jaist.ac.jp/pub/Linux/CentOS/7.3.1611/os/x86_64/Packages/kernel-devel-3.10.0-514.el7.x86_64.rpm && \
+    curl -OL http://ftp.jaist.ac.jp/pub/Linux/CentOS/7.3.1611/os/x86_64/Packages/kernel-headers-3.10.0-514.el7.x86_64.rpm && \
+    curl -OL http://ftp.jaist.ac.jp/pub/Linux/CentOS/7.3.1611/os/x86_64/Packages/kernel-abi-whitelists-3.10.0-514.el7.noarch.rpm && \
+    yum install ./kernel-* gcc -y
+WORKDIR /dm
+
+RUN curl -OL https://github.com/akiradeveloper/dm-writeboost/archive/v2.2.6.tar.gz
+COPY / /dm
+RUN mkdir -p dist/{BUILD,RPMS,SPECS,SOURCES,SRPMS,install} && \
+    cp -pf *.tar.gz dist/SOURCES/ && \
+    cp -pf *.sh dist/SOURCES/ && \
+    cp -pf *.patch  dist/SOURCES/
+RUN rpmbuild -ba \
+        --define "_topdir ${PWD}/dist" \
+        --define "buildroot ${PWD}/dist/install" \
+        --clean \
+        dm-writeboost-kmod.spec
+RUN yum install --disablerepo=* -y ./dist/RPMS/x86_64/kmod-*
+
