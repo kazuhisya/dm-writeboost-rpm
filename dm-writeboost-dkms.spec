@@ -3,27 +3,28 @@
 %define dkmslibdir %{_prefix}/lib/dkms
 
 Summary:        %{module_name} %{version} dkms package
-Name:           dm-writeboost-dkms
+Name:           %{module_name}-dkms
 Version:        %{version}
 Release:        1dkms%{?dist}
 License:        GPLv2
 BuildArch:      noarch
 Group:          System Environment/Kernel
 URL:            https://github.com/akiradeveloper/%{module_name}
-Source0:        %{url}/archive/v%{version}.tar.gz
-Patch0:         rhel73-workaround-issues-165.patch
 Requires:       dkms >= 1.95
 Requires:       device-mapper
 BuildRequires:  dkms
 BuildRequires:  redhat-rpm-config
 %if %{defined kernel_module_package_buildreqs}
-BuildRequires: %kernel_module_package_buildreqs
+BuildRequires:  %kernel_module_package_buildreqs
 %endif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root/
 
+# Sources.
+Source0:        %{url}/archive/v%{version}.tar.gz
+Patch0:         rhel73-workaround-issues-165.patch
 
 %description
-Log-structured Caching for Linux
+Log-structured Caching for Linux.
 Kernel modules for %{module_name} %{version} in a DKMS wrapper.
 
 %prep
