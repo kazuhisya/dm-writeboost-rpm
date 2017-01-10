@@ -20,21 +20,21 @@ Working on:
 	- `dkms` version
 	    - When you try to build on el7, must enable the EPEL repository.
 	- `kmod` version
-		- RHEL7.3 / CentOS 7.3.1611 or higher
+		- RHEL7.3 / CentOS 7.3.1611 or higher.
 - Fedora 23 or higher x86_64
 	- `dkms` version only
 
 Prerequisites:
 
 - `dm-writeboost-dkms`
-	- `dkms-1.95` or higher
+	- `dkms-1.95` or higher.
 - `kmod-dm-writeboost`
-	- `kernel-3.10.0-514.el7` or higher
+	- `kernel-3.10.0-514.el7` or higher.
 
 ## Compiled Package
 
 
-- You can find prebuilt rpm binary from here
+- You can find prebuilt rpm binary from here.
     - [FedoraCopr khara/dm-writeboost](https://copr.fedoraproject.org/coprs/khara/dm-writeboost/)
 
 
@@ -45,7 +45,7 @@ $ sudo curl -sL -o /etc/yum.repos.d/khara-dm-writeboost.repo https://copr.fedora
 $ sudo yum install -y dm-writeboost-dkms
 ```
 
-el7 kmod: (need epel repo)
+el7 kmod:
 
 ```bash
 $ sudo curl -sL -o /etc/yum.repos.d/khara-dm-writeboost.repo https://copr.fedoraproject.org/coprs/khara/dm-writeboost/repo/epel-7/khara-dm-writeboost-epel-7.repo
