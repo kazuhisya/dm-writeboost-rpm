@@ -4,32 +4,33 @@
 |:---------------------|:-----------|
 | `dm-writeboost-dkms` | [![FedoraCopr](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/package/dm-writeboost-dkms/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/) |
 | `kmod-dm-writeboost` | [![FedoraCopr](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/package/dm-writeboost-kmod/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/) |
+| `writeboost` (user-space utility) | [![FedoraCopr](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/package/writeboost/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/) |
 
 This repository provides the dm-writeboost unofficial rpmbuild scripts for Red Hat Enterprise Linux, CentOS and Fedora.
 
-dm-writeboost is block-level log-structured caching driver for Linux, influenced by Disk Caching Disk (DCD). It is written by Akira Hayakawa.
-
-See Also: https://github.com/akiradeveloper/dm-writeboost
-
+- `dm-writeboost` is block-level log-structured caching driver for Linux, influenced by Disk Caching Disk (DCD). It is written by Akira Hayakawa.
+    - See Also: https://github.com/akiradeveloper/dm-writeboost
+- `writeboost` is a user-space utility to activate dm-writeboost device mappings. It is written by Dmitry Smirnov.
+    - See Also: https://gitlab.com/onlyjob/writeboost
 
 ## Distro support
 
 Working on:
 
 - RHEL/CentOS 7 x86_64
-	- `dkms` version
-	    - When you try to build on el7, must enable the EPEL repository.
-	- `kmod` version
-		- RHEL7.3 / CentOS 7.3.1611 or higher.
+    - `dkms` version
+        - When you try to build on el7, must enable the EPEL repository.
+    - `kmod` version
+        - RHEL7.3 / CentOS 7.3.1611 or higher.
 - Fedora 23 or higher x86_64
-	- `dkms` version only
+    - `dkms` version only
 
 Prerequisites:
 
 - `dm-writeboost-dkms`
-	- `dkms-1.95` or higher.
+    - `dkms-1.95` or higher.
 - `kmod-dm-writeboost`
-	- `kernel-3.10.0-514.el7` or higher.
+    - `kernel-3.10.0-514.el7` or higher.
 
 ## Compiled Package
 
@@ -56,8 +57,61 @@ fedora:
 
 ```bash
 $ sudo dnf copr enable khara/dm-writeboost
-$ sudo dnf install -y dm-writeboost-dkms 
+$ sudo dnf install -y dm-writeboost-dkms
 ```
+
+## Sample Usage
+
+### 1. Install Packages
+
+Sample: dkms and user-space utility
+
+```bash
+$ sudo yum install -y dm-writeboost-dkms writeboost
+```
+
+### 2. Edit Configfile
+
+- `/etc/writeboosttab`
+
+Sample:
+
+```bash
+## dm-writeboost "tab" (mappings) file, see writeboosttab(5).
+##{DM target name}    {cached block device e.g. HDD}    {caching block device e.g. SSD}    [options]
+##
+## wb_hdd     /dev/disk/by-uuid/2e8260bc-024c-4252-a695-a73898c974c7     /dev/disk/by-partuuid/43372b68-3407-45fa-9b2f-61afe9c26a68    writeback_threshold=70,sync_data_interval=3600
+##
+wb_hdd     /dev/sdb     /dev/sdc    writeback_threshold=70,sync_data_interval=3600
+```
+
+### 3. Activate writeboost device
+
+```
+$ sudo writeboost
+```
+
+### 4. Other as needed ...
+
+- enable init service...
+
+```
+$ sudo systemctl enable writeboost.service
+```
+
+- mkfs...
+
+```
+$ mkfs.xfs /dev/mapper/wb_hdd
+```
+
+- mount setting on fstab...
+
+```
+/dev/mapper/wb_hdd    /mnt/wb xfs     defaults        0 0
+```
+
+
 
 ## Disclaimer
 
