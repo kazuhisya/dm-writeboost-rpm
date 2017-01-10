@@ -102,7 +102,7 @@ $ sudo systemctl enable writeboost.service
 - mkfs...
 
 ```
-$ mkfs.xfs /dev/mapper/wb_hdd
+$ sudo mkfs.xfs /dev/mapper/wb_hdd
 ```
 
 - mount setting on fstab...
