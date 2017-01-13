@@ -111,6 +111,27 @@ $ sudo mkfs.xfs /dev/mapper/wb_hdd
 /dev/mapper/wb_hdd    /mnt/wb xfs     defaults        0 0
 ```
 
+If you are using a large caching device, occasionally `mount` may time out.
+In such cases it may be improved with the following workaround.
+
+- Edit: `/usr/lib/systemd/system/writeboost.service`
+    - Please increase `TimeoutStartSec`
+
+```
+TimeoutStartSec=600
+```
+
+- Edit: `/etc/fstab`
+
+```
+/dev/mapper/wbdev /data defaults,x-systemd.requires=writeboost.service 0 0
+```
+
+or
+
+```
+/dev/mapper/wbdev /data auto,nofail,x-systemd.device-timeout=1200 0 0
+```
 
 
 ## Disclaimer
