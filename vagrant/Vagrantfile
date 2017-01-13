@@ -1,0 +1,28 @@
+# vi: set ft=ruby :
+
+$script = <<EOF
+sudo curl -sL -o /etc/yum.repos.d/khara-dm-writeboost.repo https://copr.fedoraproject.org/coprs/khara/dm-writeboost/repo/epel-7/khara-dm-writeboost-epel-7.repo
+sudo yum install --disablerepo=* --enablerepo=khara-dm-writeboost -y kmod-dm-writeboost writeboost
+sudo sh -c "echo wb_hdd /dev/vdb /dev/vdc writeback_threshold=70 > /etc/writeboosttab"
+sudo writeboost
+sudo mkfs.xfs /dev/mapper/wb_hdd
+sudo mkdir /mnt/wb
+sudo mount /dev/mapper/wb_hdd /mnt/wb/
+df -hT
+EOF
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "centos/7"
+
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.cpus = 2
+    libvirt.memory = 2048
+    libvirt.storage :file, :device => "vdb", :size => "10G", :type => "qcow2"
+    libvirt.storage :file, :device => "vdc", :size => "10G", :type => "qcow2"
+  end
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  #config.vm.synced_folder "../", "/home/vagrant/dm-writeboost-rpm",
+  #  create: true, owner: "vagrant", group: "vagrant"
+  config.vm.provision "shell", privileged: false, inline: $script
+end
