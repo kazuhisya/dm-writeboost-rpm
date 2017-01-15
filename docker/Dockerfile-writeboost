@@ -1,12 +1,13 @@
 FROM centos:7
 MAINTAINER Kazuhisa Hara <kazuhisya@gmail.com>
 
-RUN yum install -y yum-utils rpmdevtools make vim bash-completion
-WORKDIR /dm
+RUN yum install -y --setopt=tsflags=nodocs yum-utils rpmdevtools make vim bash-completion
 
-COPY / /dm
-RUN spectool -g writeboost.spec
-RUN mkdir -p dist/{BUILD,RPMS,SPECS,SOURCES,SRPMS,install} && \
+WORKDIR /wb
+COPY / /wb
+
+RUN spectool -g writeboost.spec && \
+    mkdir -p dist/{BUILD,RPMS,SPECS,SOURCES,SRPMS,install} && \
     cp -pf *.tar.gz dist/SOURCES/ && \
     cp -pf *.patch dist/SOURCES/
 RUN rpmbuild -ba \

@@ -1,12 +1,14 @@
 FROM fedora:25
 MAINTAINER Kazuhisa Hara <kazuhisya@gmail.com>
 
-RUN dnf install -y dnf-plugins-core rpmdevtools make kernel kernel-devel vim bash-completion dkms
-WORKDIR /dm
+RUN dnf install -y --setopt=tsflags=nodocs \
+    dnf-plugins-core rpmdevtools make kernel kernel-devel vim bash-completion dkms
 
-RUN curl -OL https://github.com/akiradeveloper/dm-writeboost/archive/v2.2.6.tar.gz
-COPY / /dm
-RUN mkdir -p dist/{BUILD,RPMS,SPECS,SOURCES,SRPMS,install} && \
+WORKDIR /wb
+COPY / /wb
+
+RUN spectool -g ./dm-writeboost-dkms.spec && \
+    mkdir -p dist/{BUILD,RPMS,SPECS,SOURCES,SRPMS,install} && \
     cp -pf *.tar.gz dist/SOURCES/ && \
     cp -pf *.patch  dist/SOURCES/
 RUN rpmbuild -ba \

@@ -1,17 +1,19 @@
 FROM centos:7
 MAINTAINER Kazuhisa Hara <kazuhisya@gmail.com>
 
-RUN yum install -y yum-utils rpmdevtools make vim bash-completion
-RUN curl -OL http://ftp.jaist.ac.jp/pub/Linux/CentOS/7.3.1611/os/x86_64/Packages/kernel-3.10.0-514.el7.x86_64.rpm && \
-    curl -OL http://ftp.jaist.ac.jp/pub/Linux/CentOS/7.3.1611/os/x86_64/Packages/kernel-devel-3.10.0-514.el7.x86_64.rpm && \
-    curl -OL http://ftp.jaist.ac.jp/pub/Linux/CentOS/7.3.1611/os/x86_64/Packages/kernel-headers-3.10.0-514.el7.x86_64.rpm && \
-    curl -OL http://ftp.jaist.ac.jp/pub/Linux/CentOS/7.3.1611/os/x86_64/Packages/kernel-abi-whitelists-3.10.0-514.el7.noarch.rpm && \
-    yum install ./kernel-* gcc -y
-WORKDIR /dm
+ENV KERNEL_VERSION="3.10.0-514.el7" \
+    REPO="http://mirror.centos.org/centos-7/7.3.1611/os/x86_64/Packages"
 
-RUN curl -OL https://github.com/akiradeveloper/dm-writeboost/archive/v2.2.6.tar.gz
-COPY / /dm
-RUN mkdir -p dist/{BUILD,RPMS,SPECS,SOURCES,SRPMS,install} && \
+RUN curl -OL ${REPO}/kernel-${KERNEL_VERSION}.x86_64.rpm && \
+    curl -OL ${REPO}/kernel-devel-${KERNEL_VERSION}.x86_64.rpm && \
+    curl -OL ${REPO}/kernel-headers-${KERNEL_VERSION}.x86_64.rpm && \
+    curl -OL ${REPO}/kernel-abi-whitelists-${KERNEL_VERSION}.noarch.rpm
+RUN yum install -y --setopt=tsflags=nodocs ./kernel* yum-utils rpmdevtools make gcc
+
+WORKDIR /wb
+COPY / /wb
+RUN spectool -g ./dm-writeboost-kmod.spec && \
+    mkdir -p dist/{BUILD,RPMS,SPECS,SOURCES,SRPMS,install} && \
     cp -pf *.tar.gz dist/SOURCES/ && \
     cp -pf *.sh dist/SOURCES/ && \
     cp -pf *.patch  dist/SOURCES/
