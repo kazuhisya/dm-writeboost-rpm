@@ -1,4 +1,4 @@
-# dm-writeboost-rpm
+# dm-writeboost-rpm [![Circle CI](https://circleci.com/gh/kazuhisya/dm-writeboost-rpm/tree/master.svg?style=shield)](https://circleci.com/gh/kazuhisya/dm-writeboost-rpm/tree/master)
 
 | Package              | RPM        |
 |:---------------------|:-----------|
