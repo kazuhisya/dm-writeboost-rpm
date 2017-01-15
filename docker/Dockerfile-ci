@@ -1,0 +1,30 @@
+FROM centos:7
+MAINTAINER Kazuhisa Hara <kazuhisya@gmail.com>
+
+
+ENV KERNEL_VERSION="3.10.0-514.el7" \
+    REPO="http://mirror.centos.org/centos-7/7.3.1611/os/x86_64/Packages"
+
+RUN curl -OL ${REPO}/kernel-${KERNEL_VERSION}.x86_64.rpm && \
+    curl -OL ${REPO}/kernel-devel-${KERNEL_VERSION}.x86_64.rpm && \
+    curl -OL ${REPO}/kernel-headers-${KERNEL_VERSION}.x86_64.rpm && \
+    curl -OL ${REPO}/kernel-abi-whitelists-${KERNEL_VERSION}.noarch.rpm
+RUN yum install --setopt=tsflags=nodocs -y \
+        ./kernel-* yum-utils rpmdevtools make gcc epel-release
+RUN yum install --setopt=tsflags=nodocs -y dkms && \
+    rpmdev-setuptree
+
+COPY / /root/rpmbuild/SOURCES
+WORKDIR /root/rpmbuild
+
+RUN mv ./SOURCES/*.spec ./SPECS/ && \
+    spectool -C ./SOURCES/ -g  ./SPECS/dm-writeboost-dkms.spec && \
+    spectool -C ./SOURCES/ -g  ./SPECS/dm-writeboost-kmod.spec && \
+    spectool -C ./SOURCES/ -g  ./SPECS/writeboost.spec && \
+    yum-builddep ./SPECS/dm-writeboost-dkms.spec && \
+    yum-builddep ./SPECS/dm-writeboost-kmod.spec && \
+    yum-builddep ./SPECS/writeboost.spec
+RUN rpmbuild -ba SPECS/dm-writeboost-dkms.spec && \
+    rpmbuild -ba SPECS/dm-writeboost-kmod.spec && \
+    rpmbuild -ba SPECS/writeboost.spec
+
