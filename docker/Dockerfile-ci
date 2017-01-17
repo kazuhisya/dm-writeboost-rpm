@@ -18,9 +18,9 @@ COPY / /root/rpmbuild/SOURCES
 WORKDIR /root/rpmbuild
 
 RUN mv ./SOURCES/*.spec ./SPECS/ && \
-    spectool -C ./SOURCES/ -g  ./SPECS/dm-writeboost-dkms.spec && \
-    spectool -C ./SOURCES/ -g  ./SPECS/dm-writeboost-kmod.spec && \
-    spectool -C ./SOURCES/ -g  ./SPECS/writeboost.spec && \
+    spectool -C ./SOURCES/ -g ./SPECS/dm-writeboost-dkms.spec && \
+    spectool -C ./SOURCES/ -g ./SPECS/dm-writeboost-kmod.spec && \
+    spectool -C ./SOURCES/ -g ./SPECS/writeboost.spec && \
     yum-builddep ./SPECS/dm-writeboost-dkms.spec && \
     yum-builddep ./SPECS/dm-writeboost-kmod.spec && \
     yum-builddep ./SPECS/writeboost.spec

@@ -2,7 +2,7 @@ FROM fedora:25
 MAINTAINER Kazuhisa Hara <kazuhisya@gmail.com>
 
 RUN dnf install -y --setopt=tsflags=nodocs \
-    dnf-plugins-core rpmdevtools make kernel kernel-devel vim bash-completion dkms
+    dnf-plugins-core rpmdevtools make kernel kernel-devel dkms
 
 WORKDIR /wb
 COPY / /wb

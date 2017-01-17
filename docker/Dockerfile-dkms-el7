@@ -2,7 +2,7 @@ FROM centos:7
 MAINTAINER Kazuhisa Hara <kazuhisya@gmail.com>
 
 RUN yum install -y --setopt=tsflags=nodocs \
-        yum-utils rpmdevtools make epel-release kernel kernel-devel vim bash-completion && \
+        yum-utils rpmdevtools make epel-release kernel kernel-devel && \
     yum install -y --setopt=tsflags=nodocs dkms
 
 WORKDIR /wb
