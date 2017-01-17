@@ -82,7 +82,7 @@ Sample:
 ##
 ## wb_hdd     /dev/disk/by-uuid/2e8260bc-024c-4252-a695-a73898c974c7     /dev/disk/by-partuuid/43372b68-3407-45fa-9b2f-61afe9c26a68    writeback_threshold=70,sync_data_interval=3600
 ##
-wb_hdd     /dev/sdb     /dev/sdc    writeback_threshold=70,sync_data_interval=3600
+wbdev     /dev/sdb     /dev/sdc    writeback_threshold=70,sync_data_interval=3600
 ```
 
 ### 3. Activate writeboost device
@@ -102,13 +102,13 @@ $ sudo systemctl enable writeboost.service
 - mkfs...
 
 ```
-$ sudo mkfs.xfs /dev/mapper/wb_hdd
+$ sudo mkfs.xfs /dev/mapper/wbdev
 ```
 
 - mount setting on fstab...
 
 ```
-/dev/mapper/wb_hdd    /mnt/wb xfs     defaults        0 0
+/dev/mapper/wbdev    /mnt/wb xfs     defaults        0 0
 ```
 
 If you are using a large caching device, occasionally `mount` may time out.
