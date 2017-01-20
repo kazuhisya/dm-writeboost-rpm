@@ -19,9 +19,10 @@ Working on:
 
 - RHEL/CentOS 7 x86_64
     - `dkms` version
-        - When you try to build on el7, must enable the EPEL repository.
+        - When you try to install or build on el7, must enable the EPEL repository.
     - `kmod` version
         - RHEL7.3 / CentOS 7.3.1611 or higher.
+    - You can choose either version of `dkms` or `kmod`. (Cannot use both at the same system!)
 - Fedora 23 or higher x86_64
     - `dkms` version only
 
@@ -42,6 +43,7 @@ Prerequisites:
 el7 dkms: (need epel repo)
 
 ```bash
+$ sudo yum install -y epel-release
 $ sudo curl -sL -o /etc/yum.repos.d/khara-dm-writeboost.repo https://copr.fedoraproject.org/coprs/khara/dm-writeboost/repo/epel-7/khara-dm-writeboost-epel-7.repo
 $ sudo yum install -y dm-writeboost-dkms
 ```
