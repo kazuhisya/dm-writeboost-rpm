@@ -9,10 +9,11 @@
 Summary:        %{kmod_name} %{version} kmod package
 Name:           %{kmod_name}-kmod
 Version:        %{version}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Group:          System Environment/Kernel
 License:        GPLv2
 URL:            https://github.com/akiradeveloper/%{kmod_name}
+Requires:       device-mapper
 BuildRequires:  perl
 BuildRequires:  redhat-rpm-config
 
@@ -53,31 +54,33 @@ KSRC=%{_usrsrc}/kernels/%{kversion}
 
 
 %install
-%{__install} -d %{buildroot}/lib/modules/%{kversion}/extra/%{kmod_name}/
-%{__install} src/%{kmod_name}.ko %{buildroot}/lib/modules/%{kversion}/extra/%{kmod_name}/
-%{__install} -d %{buildroot}%{_sysconfdir}/depmod.d/
-%{__install} kmod-%{kmod_name}.conf %{buildroot}%{_sysconfdir}/depmod.d/
+%{__install} -d $RPM_BUILD_ROOT/lib/modules/%{kversion}/extra/%{kmod_name}/
+%{__install} src/%{kmod_name}.ko $RPM_BUILD_ROOT/lib/modules/%{kversion}/extra/%{kmod_name}/
+%{__install} -d $RPM_BUILD_ROOT%{_sysconfdir}/depmod.d/
+%{__install} kmod-%{kmod_name}.conf $RPM_BUILD_ROOT%{_sysconfdir}/depmod.d/
 for file in ChangeLog LICENSE README.md; do
-    %{__install} -Dp -m0644 $file %{buildroot}%{_defaultdocdir}/kmod-%{kmod_name}-%{version}/$file
+    %{__install} -Dp -m0644 $file $RPM_BUILD_ROOT%{_defaultdocdir}/kmod-%{kmod_name}-%{version}/$file
 done
 
 # strip the modules(s)
-find %{buildroot} -type f -name \*.ko -exec %{__strip} --strip-debug \{\} \;
+find $RPM_BUILD_ROOT -type f -name \*.ko -exec %{__strip} --strip-debug \{\} \;
 
 # Sign the modules(s)
 %if %{?_with_modsign:1}%{!?_with_modsign:0}
 # If the module signing keys are not defined, define them here.
 %{!?privkey: %define privkey %{_sysconfdir}/pki/SECURE-BOOT-KEY.priv}
 %{!?pubkey: %define pubkey %{_sysconfdir}/pki/SECURE-BOOT-KEY.der}
-for module in $(find %{buildroot} -type f -name \*.ko);
+for module in $(find $RPM_BUILD_ROOT -type f -name \*.ko);
 do %{__perl} /usr/src/kernels/%{kversion}/scripts/sign-file \
 sha256 %{privkey} %{pubkey} $module;
 done
 %endif
 
 %clean
-%{__rm} -rf %{buildroot}
+%{__rm} -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jan 20 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.6-2
+- Unified buildroot macro to RPM_BUILD_ROOT environment variable.
 * Sat Jan  7 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.6-1
 - inital version
