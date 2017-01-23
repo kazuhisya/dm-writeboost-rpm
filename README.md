@@ -69,10 +69,12 @@ $ sudo dnf install -y dm-writeboost-dkms
 
 ### 1. Install Packages
 
-Sample: dkms and user-space utility
+Sample: dkms, tools and user-space utility
 
 ```bash
-$ sudo yum install -y dm-writeboost-dkms writeboost
+$ sudo yum install -y epel-release
+$ sudo curl -sL -o /etc/yum.repos.d/khara-dm-writeboost.repo https://copr.fedoraproject.org/coprs/khara/dm-writeboost/repo/epel-7/khara-dm-writeboost-epel-7.repo
+$ sudo yum install -y dm-writeboost-dkms dm-writeboost-tools writeboost
 ```
 
 ### 2. Edit Configfile
@@ -87,13 +89,13 @@ Sample:
 ##
 ## wb_hdd     /dev/disk/by-uuid/2e8260bc-024c-4252-a695-a73898c974c7     /dev/disk/by-partuuid/43372b68-3407-45fa-9b2f-61afe9c26a68    writeback_threshold=70,sync_data_interval=3600
 ##
-wbdev     /dev/sdb     /dev/sdc    writeback_threshold=70,sync_data_interval=3600
+wbdev     /dev/sdb     /dev/sdc    writeback_threshold=70
 ```
 
 ### 3. Activate writeboost device
 
 ```
-$ sudo writeboost
+$ sudo wbcreate wbdev /dev/vdb /dev/vdc --reformat --writeback_threshold=70
 ```
 
 ### 4. Other as needed ...
@@ -109,6 +111,13 @@ $ sudo systemctl enable writeboost.service
 ```
 $ sudo mkfs.xfs /dev/mapper/wbdev
 ```
+
+- check stats...
+
+```
+$ sudo dmsetup status wbdev | sudo wbstatus
+```
+
 
 - mount setting on fstab...
 

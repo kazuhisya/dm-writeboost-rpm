@@ -1,15 +1,15 @@
 # vi: set ft=ruby :
 
 $script = <<EOF
-sudo curl -sL -o /etc/yum.repos.d/khara-dm-writeboost.repo https://copr.fedoraproject.org/coprs/khara/dm-writeboost/repo/epel-7/khara-dm-writeboost-epel-7.repo
-sudo yum install --disablerepo=* --enablerepo=khara-dm-writeboost -y kmod-dm-writeboost writeboost dm-writeboost-tools
-sudo sh -c "echo wbdev /dev/vdb /dev/vdc writeback_threshold=70 > /etc/writeboosttab"
-sudo writeboost
-sudo mkfs.xfs /dev/mapper/wbdev
-sudo mkdir /mnt/wb
-sudo mount /dev/mapper/wbdev /mnt/wb/
-echo "---- wbstatus ----"
-sudo dmsetup status wbdev | sudo wbstatus
+curl -sL -o /etc/yum.repos.d/khara-dm-writeboost.repo https://copr.fedoraproject.org/coprs/khara/dm-writeboost/repo/epel-7/khara-dm-writeboost-epel-7.repo
+yum install --disablerepo=* --enablerepo=khara-dm-writeboost -y kmod-dm-writeboost writeboost dm-writeboost-tools
+echo "wbdev /dev/vdb /dev/vdc writeback_threshold=70" > /etc/writeboosttab
+wbcreate wbdev /dev/vdb /dev/vdc --reformat --writeback_threshold=70
+mkfs.xfs /dev/mapper/wbdev
+mkdir /mnt/wb
+mount /dev/mapper/wbdev /mnt/wb/
+"---- wbstatus ----"
+dmsetup status wbdev | wbstatus
 echo "---- df ----"
 df -hT
 EOF
@@ -27,5 +27,5 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
   #config.vm.synced_folder "../", "/home/vagrant/dm-writeboost-rpm",
   #  create: true, owner: "vagrant", group: "vagrant"
-  config.vm.provision "shell", privileged: false, inline: $script
+  config.vm.provision "shell", privileged: true, inline: $script
 end
