@@ -2,12 +2,15 @@
 
 $script = <<EOF
 sudo curl -sL -o /etc/yum.repos.d/khara-dm-writeboost.repo https://copr.fedoraproject.org/coprs/khara/dm-writeboost/repo/epel-7/khara-dm-writeboost-epel-7.repo
-sudo yum install --disablerepo=* --enablerepo=khara-dm-writeboost -y kmod-dm-writeboost writeboost
-sudo sh -c "echo wb_hdd /dev/vdb /dev/vdc writeback_threshold=70 > /etc/writeboosttab"
+sudo yum install --disablerepo=* --enablerepo=khara-dm-writeboost -y kmod-dm-writeboost writeboost dm-writeboost-tools
+sudo sh -c "echo wbdev /dev/vdb /dev/vdc writeback_threshold=70 > /etc/writeboosttab"
 sudo writeboost
-sudo mkfs.xfs /dev/mapper/wb_hdd
+sudo mkfs.xfs /dev/mapper/wbdev
 sudo mkdir /mnt/wb
-sudo mount /dev/mapper/wb_hdd /mnt/wb/
+sudo mount /dev/mapper/wbdev /mnt/wb/
+echo "---- wbstatus ----"
+sudo dmsetup status wbdev | sudo wbstatus
+echo "---- df ----"
 df -hT
 EOF
 
