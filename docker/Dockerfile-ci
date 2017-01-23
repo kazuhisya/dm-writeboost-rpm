@@ -11,7 +11,7 @@ RUN curl -OL ${REPO}/kernel-${KERNEL_VERSION}.x86_64.rpm && \
     curl -OL ${REPO}/kernel-abi-whitelists-${KERNEL_VERSION}.noarch.rpm
 RUN yum install --setopt=tsflags=nodocs -y \
         ./kernel-* yum-utils rpmdevtools make gcc epel-release
-RUN yum install --setopt=tsflags=nodocs -y dkms && \
+RUN yum install --setopt=tsflags=nodocs -y dkms rust cargo && \
     rpmdev-setuptree
 
 COPY / /root/rpmbuild/SOURCES
@@ -20,11 +20,14 @@ WORKDIR /root/rpmbuild
 RUN mv ./SOURCES/*.spec ./SPECS/ && \
     spectool -C ./SOURCES/ -g ./SPECS/dm-writeboost-dkms.spec && \
     spectool -C ./SOURCES/ -g ./SPECS/dm-writeboost-kmod.spec && \
+    spectool -C ./SOURCES/ -g ./SPECS/dm-writeboost-tools.spec && \
     spectool -C ./SOURCES/ -g ./SPECS/writeboost.spec && \
     yum-builddep ./SPECS/dm-writeboost-dkms.spec && \
     yum-builddep ./SPECS/dm-writeboost-kmod.spec && \
+    yum-builddep ./SPECS/dm-writeboost-tools.spec && \
     yum-builddep ./SPECS/writeboost.spec
 RUN rpmbuild -ba SPECS/dm-writeboost-dkms.spec && \
     rpmbuild -ba SPECS/dm-writeboost-kmod.spec && \
+    rpmbuild -ba SPECS/dm-writeboost-tools.spec && \
     rpmbuild -ba SPECS/writeboost.spec
 
