@@ -4,12 +4,15 @@
 |:---------------------|:-----------|
 | `dm-writeboost-dkms` | [![FedoraCopr](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/package/dm-writeboost-dkms/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/) |
 | `kmod-dm-writeboost` | [![FedoraCopr](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/package/dm-writeboost-kmod/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/) |
+| `dm-writeboost-tools` | [![FedoraCopr](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/package/dm-writeboost-tools/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/) |
 | `writeboost` (user-space utility) | [![FedoraCopr](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/package/writeboost/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/) |
 
 This repository provides the dm-writeboost unofficial rpmbuild scripts for Red Hat Enterprise Linux, CentOS and Fedora.
 
 - `dm-writeboost` is block-level log-structured caching driver for Linux, influenced by Disk Caching Disk (DCD). It is written by Akira Hayakawa.
     - See Also: https://github.com/akiradeveloper/dm-writeboost
+- `dm-writeboost-tools` is commandset to help users of dm-writeboost to analyze and report bugs.
+    - See Also: https://github.com/akiradeveloper/dm-writeboost-tools
 - `writeboost` is a user-space utility to activate dm-writeboost device mappings. It is written by Dmitry Smirnov.
     - See Also: https://gitlab.com/onlyjob/writeboost
 
