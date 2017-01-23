@@ -1,15 +1,18 @@
-# dm-writeboost-rpm
+# dm-writeboost-rpm [![Circle CI](https://circleci.com/gh/kazuhisya/dm-writeboost-rpm/tree/master.svg?style=shield)](https://circleci.com/gh/kazuhisya/dm-writeboost-rpm/tree/master)
 
 | Package              | RPM        |
 |:---------------------|:-----------|
 | `dm-writeboost-dkms` | [![FedoraCopr](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/package/dm-writeboost-dkms/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/) |
 | `kmod-dm-writeboost` | [![FedoraCopr](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/package/dm-writeboost-kmod/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/) |
+| `dm-writeboost-tools` | [![FedoraCopr](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/package/dm-writeboost-tools/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/) |
 | `writeboost` (user-space utility) | [![FedoraCopr](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/package/writeboost/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/khara/dm-writeboost/) |
 
 This repository provides the dm-writeboost unofficial rpmbuild scripts for Red Hat Enterprise Linux, CentOS and Fedora.
 
 - `dm-writeboost` is block-level log-structured caching driver for Linux, influenced by Disk Caching Disk (DCD). It is written by Akira Hayakawa.
     - See Also: https://github.com/akiradeveloper/dm-writeboost
+- `dm-writeboost-tools` is commandset to help users of dm-writeboost to analyze and report bugs.
+    - See Also: https://github.com/akiradeveloper/dm-writeboost-tools
 - `writeboost` is a user-space utility to activate dm-writeboost device mappings. It is written by Dmitry Smirnov.
     - See Also: https://gitlab.com/onlyjob/writeboost
 
@@ -19,9 +22,10 @@ Working on:
 
 - RHEL/CentOS 7 x86_64
     - `dkms` version
-        - When you try to build on el7, must enable the EPEL repository.
+        - When you try to install or build on el7, must enable the EPEL repository.
     - `kmod` version
         - RHEL7.3 / CentOS 7.3.1611 or higher.
+    - You can choose either version of `dkms` or `kmod`. (Cannot use both at the same system!)
 - Fedora 23 or higher x86_64
     - `dkms` version only
 
@@ -42,6 +46,7 @@ Prerequisites:
 el7 dkms: (need epel repo)
 
 ```bash
+$ sudo yum install -y epel-release
 $ sudo curl -sL -o /etc/yum.repos.d/khara-dm-writeboost.repo https://copr.fedoraproject.org/coprs/khara/dm-writeboost/repo/epel-7/khara-dm-writeboost-epel-7.repo
 $ sudo yum install -y dm-writeboost-dkms
 ```
@@ -82,7 +87,7 @@ Sample:
 ##
 ## wb_hdd     /dev/disk/by-uuid/2e8260bc-024c-4252-a695-a73898c974c7     /dev/disk/by-partuuid/43372b68-3407-45fa-9b2f-61afe9c26a68    writeback_threshold=70,sync_data_interval=3600
 ##
-wb_hdd     /dev/sdb     /dev/sdc    writeback_threshold=70,sync_data_interval=3600
+wbdev     /dev/sdb     /dev/sdc    writeback_threshold=70,sync_data_interval=3600
 ```
 
 ### 3. Activate writeboost device
@@ -102,13 +107,13 @@ $ sudo systemctl enable writeboost.service
 - mkfs...
 
 ```
-$ sudo mkfs.xfs /dev/mapper/wb_hdd
+$ sudo mkfs.xfs /dev/mapper/wbdev
 ```
 
 - mount setting on fstab...
 
 ```
-/dev/mapper/wb_hdd    /mnt/wb xfs     defaults        0 0
+/dev/mapper/wbdev    /mnt/wb xfs     defaults        0 0
 ```
 
 If you are using a large caching device, occasionally `mount` may time out.

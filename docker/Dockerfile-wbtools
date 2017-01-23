@@ -1,12 +1,13 @@
 FROM centos:7
 MAINTAINER Kazuhisa Hara <kazuhisya@gmail.com>
 
-RUN yum install -y --setopt=tsflags=nodocs yum-utils rpmdevtools make
+RUN yum install -y --setopt=tsflags=nodocs yum-utils rpmdevtools make epel-release && \
+    yum install -y --setopt=tsflags=nodocs rust cargo
 
 WORKDIR /wb
 COPY / /wb
 
-RUN spectool -g writeboost.spec && \
+RUN spectool -g dm-writeboost-tools.spec && \
     mkdir -p dist/{BUILD,RPMS,SPECS,SOURCES,SRPMS,install} && \
     cp -pf *.tar.gz dist/SOURCES/ && \
     cp -pf *.patch dist/SOURCES/
@@ -14,6 +15,4 @@ RUN rpmbuild -ba \
         --define "_topdir ${PWD}/dist" \
         --define "buildroot ${PWD}/dist/install" \
         --clean \
-        writeboost.spec
-RUN yum install --disablerepo=* -y ./dist/RPMS/noarch/writeboost*
-
+        dm-writeboost-tools.spec

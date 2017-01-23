@@ -1,0 +1,18 @@
+machine:
+  pre:
+    - echo 'DOCKER_OPTS="-s btrfs -e lxc -D --userland-proxy=false"' | sudo tee -a /etc/default/docker
+    - sudo curl -L -o /usr/bin/docker 'https://s3-external-1.amazonaws.com/circle-downloads/docker-1.9.0-circleci-cp-workaround'
+    - sudo chmod 0755 /usr/bin/docker
+  services:
+    - docker
+dependencies:
+  override:
+    - docker info
+    - docker build -t kazuhisya/dm-writeboost-rpm -f docker/Dockerfile-ci .
+
+test:
+  override:
+    - docker run -ti kazuhisya/dm-writeboost-rpm /bin/true
+  post:
+    - docker cp $(docker ps -lq):/root/rpmbuild/SRPMS $CIRCLE_ARTIFACTS
+    - docker cp $(docker ps -lq):/root/rpmbuild/RPMS $CIRCLE_ARTIFACTS
