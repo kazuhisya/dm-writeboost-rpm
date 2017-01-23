@@ -8,7 +8,7 @@ wbcreate wbdev /dev/vdb /dev/vdc --reformat --writeback_threshold=70
 mkfs.xfs /dev/mapper/wbdev
 mkdir /mnt/wb
 mount /dev/mapper/wbdev /mnt/wb/
-"---- wbstatus ----"
+echo "---- wbstatus ----"
 dmsetup status wbdev | wbstatus
 echo "---- df ----"
 df -hT
