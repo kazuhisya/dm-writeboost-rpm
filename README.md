@@ -26,7 +26,7 @@ Working on:
     - `kmod` version
         - RHEL7.3 / CentOS 7.3.1611 or higher.
     - You can choose either version of `dkms` or `kmod`. (Cannot use both at the same system!)
-- Fedora 23 or higher x86_64
+- Fedora 24 or higher x86_64
     - `dkms` version only
 
 Prerequisites:
