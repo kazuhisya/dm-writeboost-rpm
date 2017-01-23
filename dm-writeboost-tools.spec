@@ -49,5 +49,7 @@ done
 %{_defaultdocdir}/%{name}/
 
 %changelog
+* Mon Jan 23 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 1.0.0-1.git90fd362
+- updated to dm-writeboost-tools version 1.0.0
 * Tue Jan 17 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 0.1.0-1.git7fb9e16
 - inital version
