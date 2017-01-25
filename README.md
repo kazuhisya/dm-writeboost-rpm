@@ -69,7 +69,7 @@ $ sudo dnf install -y dm-writeboost-dkms
 
 ### 1. Install Packages
 
-Sample: dkms, tools and user-space utility
+Sample: el7, dkms, tools and user-space utility.
 
 ```bash
 $ sudo yum install -y epel-release
@@ -95,7 +95,7 @@ wbdev     /dev/sdb     /dev/sdc    writeback_threshold=70
 ### 3. Activate writeboost device
 
 ```
-$ sudo wbcreate wbdev /dev/vdb /dev/vdc --reformat --writeback_threshold=70
+$ sudo wbcreate wbdev /dev/sdb /dev/sdc --reformat --writeback_threshold=70
 ```
 
 ### 4. Other as needed ...
@@ -112,7 +112,7 @@ $ sudo systemctl enable writeboost.service
 $ sudo mkfs.xfs /dev/mapper/wbdev
 ```
 
-- check stats...
+- check status...
 
 ```
 $ sudo dmsetup status wbdev | sudo wbstatus

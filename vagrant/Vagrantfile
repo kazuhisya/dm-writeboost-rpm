@@ -4,7 +4,9 @@ $script = <<EOF
 curl -sL -o /etc/yum.repos.d/khara-dm-writeboost.repo https://copr.fedoraproject.org/coprs/khara/dm-writeboost/repo/epel-7/khara-dm-writeboost-epel-7.repo
 yum install --disablerepo=* --enablerepo=khara-dm-writeboost -y kmod-dm-writeboost writeboost dm-writeboost-tools
 echo "wbdev /dev/vdb /dev/vdc writeback_threshold=70" > /etc/writeboosttab
+echo "---- wbcreate ----"
 wbcreate wbdev /dev/vdb /dev/vdc --reformat --writeback_threshold=70
+echo "---- mkfs ----"
 mkfs.xfs /dev/mapper/wbdev
 mkdir /mnt/wb
 mount /dev/mapper/wbdev /mnt/wb/
