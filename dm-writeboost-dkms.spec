@@ -20,16 +20,15 @@ BuildRequires:  %kernel_module_package_buildreqs
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root/
 
 # Sources.
-Source0:        %{url}/archive/v%{version}.tar.gz
-Patch0:         rhel73-workaround-issues-165.patch
+Source0:        %{url}/archive/fix-165.tar.gz
 
 %description
 Log-structured Caching for Linux.
 Kernel modules for %{module_name} %{version} in a DKMS wrapper.
 
 %prep
-%setup -q -n %{module_name}-%{version}
-%patch0 -p1
+## %setup -q -n %{module_name}-%{version}
+%setup -q -n %{module_name}-fix-165
 
 %install
 if [ "$RPM_BUILD_ROOT" != "/" ]; then

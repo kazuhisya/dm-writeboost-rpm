@@ -9,7 +9,7 @@
 Summary:        %{kmod_name} %{version} kmod package
 Name:           %{kmod_name}-kmod
 Version:        %{version}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Group:          System Environment/Kernel
 License:        GPLv2
 URL:            https://github.com/akiradeveloper/%{kmod_name}
@@ -28,9 +28,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root/
 ExclusiveArch:  x86_64
 
 # Sources.
-Source0:        %{url}/archive/v%{version}.tar.gz
+Source0:        %{url}/archive/fix-165.tar.gz
 Source10:       kmodtool-%{kmod_name}-el7.sh
-Patch0:         rhel73-workaround-issues-165.patch
 
 # Magic hidden here.
 %{expand:%(sh %{SOURCE10} rpmtemplate %{kmod_name} %{kversion} "")}
@@ -43,8 +42,8 @@ Log-structured Caching for Linux.
 Kernel modules for %{kmod_name} %{version} .
 
 %prep
-%setup -n %{kmod_name}-%{version}
-%patch0 -p1
+## %setup -n %{kmod_name}-%{version}
+%setup -q -n %{kmod_name}-fix-165
 echo "override %{kmod_name} * weak-updates/%{kmod_name}" > kmod-%{kmod_name}.conf
 
 %build
