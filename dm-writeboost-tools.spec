@@ -1,5 +1,5 @@
-%global commit 90fd362eb2baadcb9db4dfbcc083696ac087216a
-%global gittag v1.0.0
+%global commit 6d47f37fa6477b3bcdddeb4ca1e354a16705b012
+%global gittag v1.0.1
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           dm-writeboost-tools
@@ -49,6 +49,8 @@ done
 %{_defaultdocdir}/%{name}/
 
 %changelog
+* Fri Apr 14 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 1.0.1-1.git6d47f37
+- updated to dm-writeboost-tools version 1.0.1
 * Mon Jan 23 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 1.0.0-1.git90fd362
 - updated to dm-writeboost-tools version 1.0.0
 * Tue Jan 17 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 0.1.0-1.git7fb9e16
