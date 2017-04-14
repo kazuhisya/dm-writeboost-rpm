@@ -9,5 +9,5 @@ Session.vim
 
 # Distribution / packaging / vagrant
 dist/
-vagrant/.vagrant
+.vagrant
 
