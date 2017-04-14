@@ -1,5 +1,5 @@
 %define module_name dm-writeboost
-%define version 2.2.6
+%define version 2.2.7
 %define dkmslibdir %{_prefix}/lib/dkms
 
 Summary:        %{module_name} %{version} dkms package
@@ -21,7 +21,6 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root/
 
 # Sources.
 Source0:        %{url}/archive/v%{version}.tar.gz
-Patch0:         rhel73-workaround-issues-165.patch
 
 %description
 Log-structured Caching for Linux.
@@ -29,7 +28,6 @@ Kernel modules for %{module_name} %{version} in a DKMS wrapper.
 
 %prep
 %setup -q -n %{module_name}-%{version}
-%patch0 -p1
 
 %install
 if [ "$RPM_BUILD_ROOT" != "/" ]; then
@@ -77,5 +75,7 @@ exit 0
 %{_defaultdocdir}/%{name}/
 
 %changelog
+* Fri Apr 14 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.7-1
+- updated to dm-writeboost version 2.2.7
 * Sat Jan  7 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.6-1
 - inital version

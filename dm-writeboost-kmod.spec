@@ -1,6 +1,6 @@
 # Define the kmod package name here.
 %define kmod_name dm-writeboost
-%define version 2.2.6
+%define version 2.2.7
 
 # If kversion isn't defined on the rpmbuild line, define it here.
 %{!?kernel:  %define kernel 3.10.0-514.el7}
@@ -9,7 +9,7 @@
 Summary:        %{kmod_name} %{version} kmod package
 Name:           %{kmod_name}-kmod
 Version:        %{version}
-Release:        2%{?dist}
+Release:        1kmod%{?dist}
 Group:          System Environment/Kernel
 License:        GPLv2
 URL:            https://github.com/akiradeveloper/%{kmod_name}
@@ -30,7 +30,6 @@ ExclusiveArch:  x86_64
 # Sources.
 Source0:        %{url}/archive/v%{version}.tar.gz
 Source10:       kmodtool-%{kmod_name}-el7.sh
-Patch0:         rhel73-workaround-issues-165.patch
 
 # Magic hidden here.
 %{expand:%(sh %{SOURCE10} rpmtemplate %{kmod_name} %{kversion} "")}
@@ -44,7 +43,6 @@ Kernel modules for %{kmod_name} %{version} .
 
 %prep
 %setup -n %{kmod_name}-%{version}
-%patch0 -p1
 echo "override %{kmod_name} * weak-updates/%{kmod_name}" > kmod-%{kmod_name}.conf
 
 %build
@@ -80,6 +78,8 @@ done
 %{__rm} -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Apr 14 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.7-1
+- updated to dm-writeboost version 2.2.7
 * Fri Jan 20 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.6-2
 - Unified buildroot macro to RPM_BUILD_ROOT environment variable.
 * Sat Jan  7 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.6-1
