@@ -8,8 +8,7 @@ COPY / /wb
 
 RUN spectool -g writeboost.spec && \
     mkdir -p dist/{BUILD,RPMS,SPECS,SOURCES,SRPMS,install} && \
-    cp -pf *.tar.gz dist/SOURCES/ && \
-    cp -pf *.patch dist/SOURCES/
+    cp -pf *.tar.gz dist/SOURCES/
 RUN rpmbuild -ba \
         --define "_topdir ${PWD}/dist" \
         --define "buildroot ${PWD}/dist/install" \
