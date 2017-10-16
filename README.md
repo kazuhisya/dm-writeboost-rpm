@@ -24,9 +24,9 @@ Working on:
     - `dkms` version
         - When you try to install or build on el7, must enable the EPEL repository.
     - `kmod` version
-        - RHEL7.3 / CentOS 7.3.1611 or higher.
+        - RHEL7.4 / CentOS 7.4.1708 or higher.
     - You can choose either version of `dkms` or `kmod`. (Cannot use both at the same system!)
-- Fedora 24 or higher x86_64
+- Fedora x86_64
     - `dkms` version only
 
 Prerequisites:
@@ -34,7 +34,7 @@ Prerequisites:
 - `dm-writeboost-dkms`
     - `dkms-1.95` or higher.
 - `kmod-dm-writeboost`
-    - `kernel-3.10.0-514.el7` or higher.
+    - `kernel-3.10.0-693.el7` or higher.
 
 ## Compiled Package
 

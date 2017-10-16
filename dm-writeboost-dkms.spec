@@ -1,5 +1,5 @@
 %define module_name dm-writeboost
-%define version 2.2.7
+%define version 2.2.8
 %define dkmslibdir %{_prefix}/lib/dkms
 
 Summary:        %{module_name} %{version} dkms package
