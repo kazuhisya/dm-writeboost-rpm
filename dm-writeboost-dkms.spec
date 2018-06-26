@@ -1,5 +1,5 @@
 %define module_name dm-writeboost
-%define version 2.2.8
+%define version 2.2.9
 %define dkmslibdir %{_prefix}/lib/dkms
 
 Summary:        %{module_name} %{version} dkms package
@@ -75,6 +75,10 @@ exit 0
 %{_defaultdocdir}/%{name}/
 
 %changelog
+* Tue Jun 26 2018 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.9-1
+- updated to dm-writeboost version 2.2.9
+* Mon Oct 16 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.8-1
+- updated to dm-writeboost version 2.2.8
 * Fri Apr 14 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.7-1
 - updated to dm-writeboost version 2.2.7
 * Sat Jan  7 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.6-1
