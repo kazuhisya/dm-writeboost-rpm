@@ -1,5 +1,9 @@
 # vi: set ft=ruby :
 
+# workaround for vagrant 1.8.x
+# https://github.com/hashicorp/vagrant/issues/9442#issuecomment-363080565
+Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
+
 $script = <<EOF
 curl -sL -o /etc/yum.repos.d/khara-dm-writeboost.repo https://copr.fedoraproject.org/coprs/khara/dm-writeboost/repo/epel-7/khara-dm-writeboost-epel-7.repo
 yum install --disablerepo=* --enablerepo=khara-dm-writeboost -y kmod-dm-writeboost writeboost dm-writeboost-tools
@@ -24,6 +28,7 @@ Vagrant.configure(2) do |config|
     libvirt.memory = 2048
     libvirt.storage :file, :device => "vdb", :size => "10G", :type => "qcow2"
     libvirt.storage :file, :device => "vdc", :size => "10G", :type => "qcow2"
+    libvirt.cpu_mode = 'host-passthrough'
   end
 
   config.vm.synced_folder ".", "/vagrant", disabled: true

@@ -1,9 +1,9 @@
 # Define the kmod package name here.
 %define kmod_name dm-writeboost
-%define version 2.2.8
+%define version 2.2.9
 
 # If kversion isn't defined on the rpmbuild line, define it here.
-%{!?kernel:  %define kernel 3.10.0-693.el7}
+%{!?kernel:  %define kernel 3.10.0-862.el7}
 %{!?kversion: %define kversion %{kernel}.%{_target_cpu}}
 
 Summary:        %{kmod_name} %{version} kmod package
@@ -78,6 +78,10 @@ done
 %{__rm} -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Jun 26 2018 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.9-1
+- updated to dm-writeboost version 2.2.9
+* Mon Oct 16 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.8-1
+- updated to dm-writeboost version 2.2.8
 * Fri Apr 14 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.7-1
 - updated to dm-writeboost version 2.2.7
 * Fri Jan 20 2017 Kazuhisa Hara <kazuhisya@gmail.com> - 2.2.6-2
