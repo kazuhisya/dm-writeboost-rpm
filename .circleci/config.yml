@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    working_directory: ~/kazuhisya/dm-writeboost-rpm
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+    steps:
+      - checkout
+      - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+      - run: docker build -t kazuhisya/dm-writeboost-rpm -f docker/Dockerfile-ci .
+      - run: docker run -ti kazuhisya/dm-writeboost-rpm /bin/true
+      - run: docker cp $(docker ps -lq):/root/rpmbuild/SRPMS $CIRCLE_ARTIFACTS
+      - run: docker cp $(docker ps -lq):/root/rpmbuild/RPMS $CIRCLE_ARTIFACTS
+      - store_artifacts:
+          path: /tmp/circleci-artifacts
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
